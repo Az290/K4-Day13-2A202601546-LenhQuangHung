@@ -4,11 +4,11 @@
 
 - Tên nhóm: HQD
 - Repository URL: https://github.com/Az290/K4-Day13-2A202601546-LenhQuangHung
-- Commit SHA cuối: Chờ cập nhật sau commit cuối
+- Commit SHA cuối: 655a4c6757b0e4c9e173f339dd6e69c9b44b8a1c
 - Thành viên và vai trò:
-  - Lenh Quang Hung - 2A202601546: Role C - Dashboard/QA, load test, Practice/Challenge Incident CP3, tổng hợp báo cáo nhóm.
+  - Lệnh Quang Hưng - 2A202601546: Role A - Logging & Middleware & PII.
   - Nguyễn Minh Quang - 2A202601730: Role B - Langfuse config, SLO/Alert Rules, Alert Runbook.
-  - Thành viên phụ trách Role A Logging & Middleware & PII: cần nhóm xác nhận lại tên trong report cuối.
+  - Lê Minh Đạt - 2A202601088: Role C - Dashboard/QA, load test, Practice/Challenge Incident CP3, tổng hợp báo cáo nhóm.
 
 ## 2. Kết quả kỹ thuật
 
@@ -21,7 +21,7 @@
 
 - Evidence correlation ID: `submission/evidence/cp1_log_sample.png` và `submission/evidence/cp1_sample_logs.json`. Mỗi log có `correlation_id` dạng `req-<8hex>`, sinh tại `app/middleware.py`, lấy từ header `x-request-id` nếu client gửi, ngược lại tự tạo mới; response trả lại header `x-request-id`.
 - Evidence PII redaction: `submission/evidence/cp1_log_sample.png` và `submission/evidence/cp1_sample_logs.json`. Trường `payload.message_preview` hiển thị token redact như `[REDACTED_EMAIL]` thay vì email thật. Bộ lọc PII nằm ở `app/pii.py` và được áp dụng qua processor `scrub_event` trong `app/logging_config.py`.
-- Evidence trace waterfall: Chờ ảnh trace waterfall trong `submission/evidence/`.
+- Evidence trace waterfall: `submission/evidence/waterfall.png` và `submission/evidence/trace.png`.
 - Giải thích một span đáng chú ý: Log `request_received` trong `app/main.py` được enrich bằng `bind_contextvars(user_id_hash, session_id, feature, model, env)` ngay khi vào endpoint `/chat`, trước khi gọi agent. Nhờ vậy các log trong cùng request có đủ metadata mà không cần truyền thủ công qua từng hàm.
 
 ## 4. Prompt versioning
@@ -59,6 +59,6 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| Lenh Quang Hung - 2A202601546 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3 và tổng hợp report nhóm | Chờ commit/PR cuối | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs. |
+| Lê Minh Đạt - 2A202601088 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3 và tổng hợp report nhóm | `655a4c6` | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs. |
 | Nguyễn Minh Quang - 2A202601730 | Role B - Langfuse config, SLO/Alert, alert runbook; định nghĩa 3 alert symptom-based và verify practice incident `rag_slow`, `tool_fail`, `cost_spike` | `4e3c5f0`, `7d3ec71`, `2cc2bbe`, `9cd6371` (điền link GitHub sau khi push) | Hiểu cách tách lỗi kết nối Langfuse với lỗi thiếu prompt object; alert nên gắn với triệu chứng/SLO thay vì tên hàm nội bộ. |
-| Thành viên phụ trách Logging & PII | Role A - Hoàn thiện `app/middleware.py`, `app/main.py`, `app/logging_config.py`, `app/pii.py`; kết quả `validate_logs.py` 100/100 và không còn PII thô trong log mẫu | Chờ nhóm xác nhận commit/PR | Hiểu vai trò của `clear_contextvars()`, correlation ID và thứ tự processor trong structlog để đảm bảo PII được che trước khi ghi log. |
+| Lệnh Quang Hưng - 2A202601546 | Role A - Hoàn thiện `app/middleware.py`, `app/main.py`, `app/logging_config.py`, `app/pii.py`; kết quả `validate_logs.py` 100/100 và không còn PII thô trong log mẫu | `eb45027` | Hiểu vai trò của `clear_contextvars()`, correlation ID và thứ tự processor trong structlog để đảm bảo PII được che trước khi ghi log. |
