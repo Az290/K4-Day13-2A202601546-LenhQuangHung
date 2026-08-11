@@ -8,12 +8,12 @@
 - Thành viên và vai trò:
   - Lệnh Quang Hưng - 2A202601546: Role A - Logging & Middleware & PII.
   - Nguyễn Minh Quang - 2A202601730: Role B - Langfuse config, SLO/Alert Rules, Alert Runbook.
-  - Lê Minh Đạt - 2A202601088: Role C - Dashboard/QA, load test, Practice/Challenge Incident CP3, tổng hợp báo cáo nhóm.
+  - Lê Minh Đạt - 2A202601088: Role C - Dashboard/QA, load test, Practice/Challenge Incident CP3, tổng hợp báo cáo nhóm và bổ sung Prompt Versioning evidence còn thiếu.
 
 ## 2. Kết quả kỹ thuật
 
 - Điểm `validate_logs.py`: 100/100. Evidence: `submission/evidence/cp1_validate_logs_result.txt` và `submission/evidence/cp1_validate_logs.png`.
-- Tổng số traces: 10. Đã xác nhận qua Langfuse API `client.api.trace.list()` sau khi cấu hình `LANGFUSE_PUBLIC_KEY`/`LANGFUSE_SECRET_KEY`; `/health` trả `tracing_enabled=true`.
+- Tổng số traces: 29. Đã xác nhận qua Langfuse API `client.api.trace.list()` sau khi cấu hình `LANGFUSE_PUBLIC_KEY`/`LANGFUSE_SECRET_KEY`; `/health` trả `tracing_enabled=true`.
 - Số PII leak còn lại: 0 theo `validate_logs.py`; đã kiểm tra thêm email/card mẫu không xuất hiện nguyên văn trong `data/logs.jsonl`.
 - Link/đường dẫn dashboard: `submission/evidence/dashboard_runtime.html`; dashboard contract đã hợp lệ theo `config/dashboard.yaml`, log runtime đã có tại `data/logs.jsonl` để dựng đủ 6 panel.
 
@@ -27,10 +27,14 @@
 ## 4. Prompt versioning
 
 - Prompt name: `day13-chat` theo contract trong `docs/PROMPT_VERSIONING.md`.
-- Version/label baseline: Chờ evidence Langfuse.
-- Version/label candidate: Chờ evidence Langfuse.
-- Trace ID của mỗi version: Chờ evidence Langfuse.
-- Bằng chứng đổi label hoặc rollback: Chờ ảnh/evidence từ Langfuse.
+- Version/label baseline: version 1, labels `baseline` và `production`.
+- Version/label candidate: version 2, label `candidate`; candidate thêm yêu cầu format câu trả lời ngắn dạng numbered answer.
+- Trace ID của mỗi version:
+  - baseline/version 1: `fb2a054c562e3acee9927f454ce2c10c`
+  - candidate/version 2: `4ce345395ad048b808719971ed9e8dc6`
+  - production moved to version 2: `20cf1dbab466225399312be615ea2b30`
+  - production rollback to version 1: `8e4fdf86bb5b87e74a20dbdffed6197b`
+- Bằng chứng đổi label hoặc rollback: `submission/evidence/prompt_versioning_summary.txt`, `submission/evidence/prompt_trace_ids.txt`, `submission/evidence/prompt_versioning_evidence.html`. Các trace này có `prompt_source=langfuse`, chứng minh app đã lấy managed prompt thay vì fallback local.
 
 ## 5. Dashboard, SLO và alerts
 
@@ -59,6 +63,6 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| Lê Minh Đạt - 2A202601088 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3 và tổng hợp report nhóm | `655a4c6`, `043ffc5`, `2accbb3` | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs. |
+| Lê Minh Đạt - 2A202601088 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3, tổng hợp report nhóm và bổ sung Prompt Versioning evidence còn thiếu | `655a4c6`, `043ffc5`, `2accbb3` | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs và cách kiểm chứng prompt label/version trên Langfuse. |
 | Nguyễn Minh Quang - 2A202601730 | Role B - Langfuse config, SLO/Alert, alert runbook; định nghĩa 3 alert symptom-based và verify practice incident `rag_slow`, `tool_fail`, `cost_spike` | `4e3c5f0`, `7d3ec71`, `2cc2bbe`, `9cd6371` (điền link GitHub sau khi push) | Hiểu cách tách lỗi kết nối Langfuse với lỗi thiếu prompt object; alert nên gắn với triệu chứng/SLO thay vì tên hàm nội bộ. |
 | Lệnh Quang Hưng - 2A202601546 | Role A - Hoàn thiện `app/middleware.py`, `app/main.py`, `app/logging_config.py`, `app/pii.py`; kết quả `validate_logs.py` 100/100 và không còn PII thô trong log mẫu | `eb45027` | Hiểu vai trò của `clear_contextvars()`, correlation ID và thứ tự processor trong structlog để đảm bảo PII được che trước khi ghi log. |

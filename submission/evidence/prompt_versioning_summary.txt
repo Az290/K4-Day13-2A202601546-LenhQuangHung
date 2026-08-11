@@ -1,0 +1,42 @@
+Prompt Versioning Evidence
+
+Prompt name:
+- day13-chat
+
+Prompt contract:
+Feature={{feature}}
+Docs={{docs}}
+Question={{message}}
+
+Created versions:
+- Version 1 labels: baseline, production
+- Version 2 labels: candidate
+
+Candidate version change:
+- Adds: Answer format: give a concise numbered answer.
+
+Trace evidence with managed Langfuse prompt:
+- baseline trace: fb2a054c562e3acee9927f454ce2c10c
+  - prompt_label: baseline
+  - prompt_version: 1
+  - prompt_source: langfuse
+- candidate trace: 4ce345395ad048b808719971ed9e8dc6
+  - prompt_label: candidate
+  - prompt_version: 2
+  - prompt_source: langfuse
+- production moved to v2 trace: 20cf1dbab466225399312be615ea2b30
+  - prompt_label: production
+  - prompt_version: 2
+  - prompt_source: langfuse
+- production rollback to v1 trace: 8e4fdf86bb5b87e74a20dbdffed6197b
+  - prompt_label: production
+  - prompt_version: 1
+  - prompt_source: langfuse
+
+Final label state:
+- baseline -> version 1
+- candidate -> version 2
+- production -> version 1
+
+Note:
+Older challenge traces were created before the managed prompt existed and show prompt_source=local-fallback. The traces above were generated after creating day13-chat on Langfuse and prove managed prompt versioning works.

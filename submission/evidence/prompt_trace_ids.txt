@@ -1,0 +1,13 @@
+Langfuse prompt trace URLs
+
+baseline / version 1:
+https://cloud.langfuse.com/project/cmsod6z1x025tad0gsdzneqcj/traces/fb2a054c562e3acee9927f454ce2c10c
+
+candidate / version 2:
+https://cloud.langfuse.com/project/cmsod6z1x025tad0gsdzneqcj/traces/4ce345395ad048b808719971ed9e8dc6
+
+production moved to version 2:
+https://cloud.langfuse.com/project/cmsod6z1x025tad0gsdzneqcj/traces/20cf1dbab466225399312be615ea2b30
+
+production rollback to version 1:
+https://cloud.langfuse.com/project/cmsod6z1x025tad0gsdzneqcj/traces/8e4fdf86bb5b87e74a20dbdffed6197b
