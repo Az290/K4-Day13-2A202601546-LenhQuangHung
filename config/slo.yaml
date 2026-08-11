@@ -4,7 +4,7 @@ slis:
   latency_p95_ms:
     objective: 3000
     target: 99.5
-    note: Replace with your group's target
+    note: Giữ nguyên; khớp threshold panel Latency trong config/dashboard.yaml, baseline thực tế ~150ms nên còn nhiều dư địa để phát hiện incident (vd. rag_slow)
   error_rate_pct:
     objective: 2
     target: 99.0

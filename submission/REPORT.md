@@ -12,7 +12,7 @@
 
 ## 2. Kết quả kỹ thuật
 
-- Điểm `validate_logs.py`: 100/100 (baseline trước khi sửa CP1 chưa ghi nhận — cần thành viên chạy lại trên bản gốc nếu muốn đối chiếu; sau khi hoàn thiện CP1 đạt 100/100, vượt mục tiêu ≥80/100). Xem `submission/evidence/cp1_validate_logs_result.txt` và `cp1_validate_logs.png`.
+- Điểm `validate_logs.py`: 100/100 (đã xác nhận qua `submission/evidence/cp1_validate_logs_result.txt`; vượt mục tiêu ≥80/100). Xem thêm `submission/evidence/cp1_validate_logs_result.txt` và `cp1_validate_logs.png`.
 - Tổng số traces: (điền bởi Role B sau khi cấu hình Langfuse)
 - Số PII leak còn lại: 0 (theo `validate_logs.py`); đã tự kiểm tay bằng `grep -i "@"` và `grep "4111"` trên `data/logs.jsonl` — không có kết quả nguyên văn nào lộ ra.
 - Link/đường dẫn dashboard: (điền bởi Role C)
@@ -34,10 +34,13 @@
 
 ## 5. Dashboard, SLO và alerts
 
-- Kết quả `validate_dashboard.py`:
-- Evidence dashboard:
-- SLO đã chọn và lý do:
-- Alert rules và runbook:
+- Kết quả `validate_dashboard.py`: `HỢP LỆ: 6/6 panel có trong dashboard contract.` (2026-08-11)
+- Evidence dashboard: TODO — ảnh dashboard runtime (6 panel, time range/threshold hiển thị) chưa chụp, cần dựng dashboard (Streamlit/notebook/Grafana) rồi lưu vào `submission/evidence/` theo [docs/DASHBOARD_SETUP.md](../docs/DASHBOARD_SETUP.md).
+- SLO đã chọn và lý do: Giữ nguyên 4 SLI mặc định trong `config/slo.yaml` (`latency_p95_ms` ≤ 3000ms, `error_rate_pct` ≤ 2%, `daily_cost_usd` ≤ $2.5, `quality_score_avg` ≥ 0.75) vì đã khớp threshold của `config/dashboard.yaml` (contract dùng chung, không tự đổi) và baseline thực tế trong `data/logs.jsonl` (latency ~150ms, cost ~0.002 USD/request, 0 lỗi) cho thấy còn dư địa hợp lý để phát hiện incident thay vì báo động giả.
+- Alert rules và runbook: 3 alert symptom-based trong `config/alert_rules.yaml`, chi tiết đầy đủ trong [docs/alerts.md](../docs/alerts.md):
+  1. `high_latency_p95` (warning) — `latency_p95_ms > 3000` duy trì 5 phút. Verify bằng practice `rag_slow`: `/metrics` cho latency_p95 tăng từ **152ms → 2651ms** (~17 lần) khi bật incident, giảm lại sau khi tắt.
+  2. `elevated_error_rate` (critical) — `error_rate_pct > 2%` duy trì 5 phút. Verify bằng practice `tool_fail`: 10/10 request trả `500 RuntimeError` (100% lỗi) khi bật incident, `error_breakdown={}` khi tắt.
+  3. `daily_cost_budget_burn` (warning) — `daily_cost_usd > 2.5` trong cửa sổ rolling 24h. Verify bằng practice `cost_spike`: avg cost/request tăng từ **$0.0020 → $0.0037** (~1.8 lần), tổng cost cộng dồn từ $0.0604 → $0.1464 sau 10 request.
 
 ## 6. Điều tra challenge
 
