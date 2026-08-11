@@ -34,7 +34,7 @@
 
 ## 5. Dashboard, SLO và alerts
 
-- Kết quả `validate_dashboard.py`: `HỢP LỆ: 6/6 panel có trong dashboard contract.` (2026-08-11)
+- Kết quả `validate_dashboard.py`: `HỢP LỆ: 6/6 panel có trong dashboard contract.` (2026-08-11) — evidence: `submission/evidence/cp2_validate_dashboard_result.txt`
 - Evidence dashboard: TODO — ảnh dashboard runtime (6 panel, time range/threshold hiển thị) chưa chụp, cần dựng dashboard (Streamlit/notebook/Grafana) rồi lưu vào `submission/evidence/` theo [docs/DASHBOARD_SETUP.md](../docs/DASHBOARD_SETUP.md).
 - SLO đã chọn và lý do: Giữ nguyên 4 SLI mặc định trong `config/slo.yaml` (`latency_p95_ms` ≤ 3000ms, `error_rate_pct` ≤ 2%, `daily_cost_usd` ≤ $2.5, `quality_score_avg` ≥ 0.75) vì đã khớp threshold của `config/dashboard.yaml` (contract dùng chung, không tự đổi) và baseline thực tế trong `data/logs.jsonl` (latency ~150ms, cost ~0.002 USD/request, 0 lỗi) cho thấy còn dư địa hợp lý để phát hiện incident thay vì báo động giả.
 - Alert rules và runbook: 3 alert symptom-based trong `config/alert_rules.yaml`, chi tiết đầy đủ trong [docs/alerts.md](../docs/alerts.md):
