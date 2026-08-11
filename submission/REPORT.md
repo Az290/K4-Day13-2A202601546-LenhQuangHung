@@ -7,13 +7,13 @@
 - Commit SHA cuối: (điền sau khi push)
 - Thành viên và vai trò:
   - Lệnh Quang Hưng - 2A202601546 — Role A: Logging & Middleware & PII (correlation ID, enrichment, PII scrubbing)
-  - (thành viên B) — Role B: Tracing & Prompt Version, SLO/Alert
+  - Nguyễn Minh Quang - 2A202601730 — Role B: Langfuse config, SLO/Alert Rules, Alert Runbook (Tracing & Prompt Version phần còn lại chưa hoàn thành)
   - (thành viên C) — Role C: Dashboard/QA, Challenge Investigation, tổng hợp báo cáo
 
 ## 2. Kết quả kỹ thuật
 
 - Điểm `validate_logs.py`: 100/100 (đã xác nhận qua `submission/evidence/cp1_validate_logs_result.txt`; vượt mục tiêu ≥80/100). Xem thêm `submission/evidence/cp1_validate_logs_result.txt` và `cp1_validate_logs.png`.
-- Tổng số traces: (điền bởi Role B sau khi cấu hình Langfuse)
+- Tổng số traces: 10 (xác nhận qua Langfuse API `client.api.trace.list()` sau khi cấu hình `LANGFUSE_PUBLIC_KEY`/`SECRET_KEY`, 2026-08-11); `client.auth_check()` = True, `tracing_enabled` = true trên `/health`
 - Số PII leak còn lại: 0 (theo `validate_logs.py`); đã tự kiểm tay bằng `grep -i "@"` và `grep "4111"` trên `data/logs.jsonl` — không có kết quả nguyên văn nào lộ ra.
 - Link/đường dẫn dashboard: (điền bởi Role C)
 
@@ -59,4 +59,5 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
 | Lệnh Quang Hưng - 2A202601546 | Role A — Logging & Middleware & PII: hoàn thiện `app/middleware.py` (correlation ID `req-<8hex>`, bind/clear contextvars, response headers), `app/main.py` (enrich context `user_id_hash/session_id/feature/model/env`), `app/logging_config.py` (bật và nâng cấp `scrub_event` quét toàn bộ trường), `app/pii.py` (thêm pattern `passport`, `address_vn`). Kết quả: `validate_logs.py` 100/100, `pytest -q` 22/22 pass, không còn PII thô trong log. | (điền link sau khi commit/push) | Hiểu vì sao phải `clear_contextvars()` đầu middleware để tránh context của request trước rò sang request sau (do server dùng chung thread/task pool); hiểu thứ tự processor trong structlog quyết định dữ liệu được scrub trước hay sau khi ghi log — đặt sai thứ tự thì PII vẫn lọt xuống file dù code scrub "trông đúng". |
+| Nguyễn Minh Quang - 2A202601730 | Role B (một phần) — Langfuse config & SLO/Alert: điền `LANGFUSE_PUBLIC_KEY`/`SECRET_KEY` vào `.env` và verify kết nối thật (`auth_check()` = True, 10 trace xác nhận qua `client.api.trace.list()`); xác nhận và chú thích lý do giữ nguyên `config/slo.yaml`; định nghĩa 3 alert symptom-based trong `config/alert_rules.yaml` (`high_latency_p95`, `elevated_error_rate`, `daily_cost_budget_burn`); viết runbook đầy đủ cho cả 3 alert trong `docs/alerts.md`; chạy lần lượt 3 kịch bản `scripts/inject_incident.py` (`rag_slow`, `tool_fail`, `cost_spike`) để lấy số liệu before/after chứng minh điều kiện alert là hợp lý; cập nhật `submission/REPORT.md` mục 2 và 5. Kết quả: `validate_dashboard.py` → 6/6 panel hợp lệ, `pytest -q` 22/22 pass. Việc còn thiếu: dựng dashboard runtime và chụp evidence trace/dashboard (chưa có ảnh trong `submission/evidence/`). | (điền link sau khi commit/push) | Kết nối Langfuse thành công (`auth_check`/trace list đúng) không đồng nghĩa mọi thứ đã đúng — trace vẫn báo `prompt_source=local-fallback` vì prompt `day13-chat` chưa được tạo trên Langfuse, tách bạch được "lỗi kết nối" và "thiếu prompt object" giúp khoanh vùng đúng người xử lý. Cũng hiểu vì sao alert nên gắn với triệu chứng/SLO (latency, error rate, cost) thay vì tên hàm nội bộ — khi tự bật từng incident practice và so số liệu `/metrics` trước/sau, threshold đặt ra mới thực sự có căn cứ chứ không phải đoán. |
 | | | | |
