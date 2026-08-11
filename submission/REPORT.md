@@ -4,7 +4,7 @@
 
 - Tên nhóm: HQD
 - Repository URL: https://github.com/Az290/K4-Day13-2A202601546-LenhQuangHung
-- Commit SHA cuối: 043ffc5f59f91a45b2cf1e72f5b690faf4f472aa
+- Commit SHA cuối: HEAD trên nhánh `main` sau khi push; SHA dùng để nộp được ghi trên hệ thống Codelabs/GitHub.
 - Thành viên và vai trò:
   - Lệnh Quang Hưng - 2A202601546: Role A - Logging & Middleware & PII.
   - Nguyễn Minh Quang - 2A202601730: Role B - Langfuse config, SLO/Alert Rules, Alert Runbook.
@@ -59,6 +59,6 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| Lê Minh Đạt - 2A202601088 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3 và tổng hợp report nhóm | `043ffc5` | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs. |
+| Lê Minh Đạt - 2A202601088 | Role C - Validate dashboard contract, phụ trách dashboard spec, load test, Practice/Challenge Incident CP3 và tổng hợp report nhóm | `655a4c6`, `043ffc5`, `2accbb3` | Hiểu cách chuyển dashboard contract thành 6 panel quan sát latency, traffic, errors, cost, tokens và quality; biết quy trình CP3 Metrics -> Traces -> Logs. |
 | Nguyễn Minh Quang - 2A202601730 | Role B - Langfuse config, SLO/Alert, alert runbook; định nghĩa 3 alert symptom-based và verify practice incident `rag_slow`, `tool_fail`, `cost_spike` | `4e3c5f0`, `7d3ec71`, `2cc2bbe`, `9cd6371` (điền link GitHub sau khi push) | Hiểu cách tách lỗi kết nối Langfuse với lỗi thiếu prompt object; alert nên gắn với triệu chứng/SLO thay vì tên hàm nội bộ. |
 | Lệnh Quang Hưng - 2A202601546 | Role A - Hoàn thiện `app/middleware.py`, `app/main.py`, `app/logging_config.py`, `app/pii.py`; kết quả `validate_logs.py` 100/100 và không còn PII thô trong log mẫu | `eb45027` | Hiểu vai trò của `clear_contextvars()`, correlation ID và thứ tự processor trong structlog để đảm bảo PII được che trước khi ghi log. |
