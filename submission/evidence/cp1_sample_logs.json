@@ -1,0 +1,47 @@
+[
+  {
+    "service": "api",
+    "payload": {
+      "message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"
+    },
+    "event": "request_received",
+    "user_id_hash": "2055254ee30a",
+    "model": "claude-sonnet-4-5",
+    "feature": "qa",
+    "correlation_id": "req-860c3b42",
+    "env": "dev",
+    "session_id": "s01",
+    "level": "info",
+    "ts": "2026-08-11T07:39:46.851272Z"
+  },
+  {
+    "service": "api",
+    "payload": {
+      "message_preview": "Explain why metrics traces and logs work together"
+    },
+    "event": "request_received",
+    "user_id_hash": "95b6504a8bd6",
+    "model": "claude-sonnet-4-5",
+    "feature": "qa",
+    "correlation_id": "req-8329e025",
+    "env": "dev",
+    "session_id": "s02",
+    "level": "info",
+    "ts": "2026-08-11T07:39:47.571440Z"
+  },
+  {
+    "service": "api",
+    "payload": {
+      "message_preview": "Summarize the monitoring policy for production logging"
+    },
+    "event": "request_received",
+    "user_id_hash": "97ce842ec69d",
+    "model": "claude-sonnet-4-5",
+    "feature": "summary",
+    "correlation_id": "req-cfd74efb",
+    "env": "dev",
+    "session_id": "s03",
+    "level": "info",
+    "ts": "2026-08-11T07:39:47.732061Z"
+  }
+]
