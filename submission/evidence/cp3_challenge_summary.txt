@@ -1,0 +1,41 @@
+Commands:
+.\.venv\Scripts\python.exe scripts\inject_incident.py
+.\.venv\Scripts\python.exe scripts\load_test.py --challenge --concurrency 5
+.\.venv\Scripts\python.exe scripts\inject_incident.py --disable
+
+Challenge:
+- challenge_id: day13-k4-observability-v1
+- cohort: K4
+- incident: rag_slow
+- affected_feature: monitoring
+- latency_threshold_ms: 2000
+
+Observed client-side challenge load test:
+- req-9c750c78 | monitoring | 11210.7ms
+- req-1dc54847 | monitoring | 11211.7ms
+- req-87ff605a | monitoring | 18634.8ms
+- req-25745001 | monitoring | 18637.1ms
+- req-face1c79 | monitoring | 18635.5ms
+
+Observed server-side logs:
+- baseline_count: 10
+- baseline_p95_ms: 1246
+- challenge_count: 5
+- challenge_p95_ms: 3778
+- challenge_latency_ms: 3708, 3700, 3778, 3735, 3680
+- challenge_correlation_ids: req-1dc54847, req-9c750c78, req-87ff605a, req-25745001, req-face1c79
+
+/metrics after challenge:
+- traffic: 15
+- latency_p50: 1222
+- latency_p95: 3778
+- latency_p99: 3778
+- avg_cost_usd: 0.0021
+- total_cost_usd: 0.0315
+- tokens_in_total: 505
+- tokens_out_total: 2002
+- error_breakdown: {}
+- quality_avg: 0.8667
+
+Incident disabled result:
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}

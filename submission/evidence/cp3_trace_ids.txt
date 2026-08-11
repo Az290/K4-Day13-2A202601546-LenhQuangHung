@@ -1,0 +1,11 @@
+Langfuse auth_check: True
+
+Challenge trace IDs:
+- a1a4166368e2646e14dbcb8860b48d7c | Summarize the observability workflow for an AI API.
+- 59acda004a68e42e40fd77e85e528bf7 | Which signal should be checked after latency increases?
+- 5ca44c966168c26f54b39955c7c4d365 | Explain why metrics traces and logs work together.
+- 6aa5a7a75a0d6f172a2096600a639bd8 | How should an engineer investigate tail latency?
+- ab46836e6effc2bdfbad6c1b25f8dcbe | Describe how to prove a slow span is the root cause.
+
+Note:
+Trace metadata currently reports prompt_source=local-fallback and prompt_version=local-v1, so Prompt Versioning evidence still needs the managed Langfuse prompt object/labels before final submission.

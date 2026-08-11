@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="30">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Day 13 AI Observability Dashboard</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --text: #20242b;
+      --muted: #657084;
+      --line: #d8dee8;
+      --ok: #0f766e;
+      --warn: #b42318;
+      --accent: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      padding: 24px 28px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    main {
+      padding: 22px 28px 28px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .panel.ok { border-left-color: var(--ok); }
+    .panel.warn { border-left-color: var(--warn); }
+    .panel-head h2 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .panel-head span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0 14px;
+    }
+    .metric {
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+      min-width: 0;
+    }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+    .threshold {
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+    @media (max-width: 1000px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      header, main { padding-left: 16px; padding-right: 16px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Day 13 AI Observability Dashboard</h1>
+    <div class="meta">
+      <span>Source: data/logs.jsonl</span>
+      <span>Time range: last 60 minutes</span>
+      <span>Refresh: 30 seconds</span>
+      <span>Generated: 2026-08-11 08:43:12 UTC</span>
+      <span>Total log records: 34</span>
+    </div>
+  </header>
+  <main>
+    <div class="grid">
+      
+      <section class="panel warn">
+        <div class="panel-head">
+          <h2>Latency Percentiles</h2>
+          <span>event=response_sent, unit=ms</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>P50</span><strong>1222 ms</strong></div>
+<div class="metric"><span>P95</span><strong>3778 ms</strong></div>
+<div class="metric"><span>P99</span><strong>3778 ms</strong></div>
+        </div>
+        <div class="threshold">Threshold: P95 <= 3000 ms</div>
+      </section>
+    
+      <section class="panel warn">
+        <div class="panel-head">
+          <h2>Request Traffic</h2>
+          <span>event=request_received, unit=requests/min</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Count</span><strong>15</strong></div>
+<div class="metric"><span>Rate</span><strong>0.25/min</strong></div>
+        </div>
+        <div class="threshold">Threshold: rate_per_minute >= 1</div>
+      </section>
+    
+      <section class="panel ok">
+        <div class="panel-head">
+          <h2>Error Rate And Breakdown</h2>
+          <span>events=request_received/request_failed, unit=percent</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Error Rate</span><strong>0.00%</strong></div>
+<div class="metric"><span>Failures</span><strong>0</strong></div>
+<div class="metric"><span>Breakdown</span><strong>none</strong></div>
+        </div>
+        <div class="threshold">Threshold: error_rate_pct <= 2%</div>
+      </section>
+    
+      <section class="panel ok">
+        <div class="panel-head">
+          <h2>Cost Over Time</h2>
+          <span>event=response_sent, unit=USD</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Total</span><strong>$0.0315</strong></div>
+<div class="metric"><span>Avg/Request</span><strong>$0.0021</strong></div>
+        </div>
+        <div class="threshold">Threshold: total <= $2.5</div>
+      </section>
+    
+      <section class="panel ok">
+        <div class="panel-head">
+          <h2>Input And Output Tokens</h2>
+          <span>event=response_sent, unit=tokens</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Input</span><strong>505</strong></div>
+<div class="metric"><span>Output</span><strong>2002</strong></div>
+<div class="metric"><span>Total</span><strong>2507</strong></div>
+        </div>
+        <div class="threshold">Threshold: sum_by_field <= 50000</div>
+      </section>
+    
+      <section class="panel ok">
+        <div class="panel-head">
+          <h2>Quality Proxy</h2>
+          <span>event=response_sent, unit=score_0_to_1</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Mean</span><strong>0.8667</strong></div>
+<div class="metric"><span>Samples</span><strong>15</strong></div>
+        </div>
+        <div class="threshold">Threshold: mean >= 0.75</div>
+      </section>
+    
+    </div>
+  </main>
+</body>
+</html>

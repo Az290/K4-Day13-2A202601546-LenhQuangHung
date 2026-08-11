@@ -1,0 +1,5 @@
+Command:
+.\.venv\Scripts\python.exe scripts\validate_dashboard.py
+
+Output:
+HỢP LỆ: 6/6 panel có trong dashboard contract.
